@@ -1,0 +1,36 @@
+{
+  "name": "atelier-copies",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "build:portfolio": "next build portfolio",
+    "dev:portfolio": "next dev portfolio --hostname 127.0.0.1",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "prisma db seed"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "@types/nodemailer": "^8.0.1",
+    "lucide-react": "latest",
+    "next": "latest",
+    "nodemailer": "^9.0.3",
+    "pg": "^8.22.0",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "dotenv": "^17.4.2",
+    "prisma": "^7.8.0",
+    "typescript": "latest"
+  }
+}

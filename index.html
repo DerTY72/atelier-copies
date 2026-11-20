@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atelier Copies - магазин копий картин</title>
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#catalog" aria-label="Atelier Copies">
+        <span class="brand-mark">AC</span>
+        <span>
+          <strong>Atelier Copies</strong>
+          <small>музейные копии картин</small>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="Основная навигация">
+        <a href="#catalog">Каталог</a>
+        <a href="#process">Как работаем</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#support">Поддержка</a>
+      </nav>
+
+      <button class="cart-button" type="button" data-open-cart>
+        <span aria-hidden="true">Корзина</span>
+        <strong data-cart-count>0</strong>
+      </button>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <p class="eyebrow">Ручная работа по фото и музейным референсам</p>
+          <h1 id="hero-title">Копии картин для интерьера, коллекции и подарка</h1>
+          <p>
+            Подберите готовую работу из каталога или закажите копию в нужном размере.
+            На первом этапе сайт уже умеет показывать каталог, карточку товара и собирать корзину.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#catalog">Выбрать картину</a>
+            <a class="button secondary" href="#support">Задать вопрос</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="catalog-section" id="catalog" aria-labelledby="catalog-title">
+        <div class="section-heading">
+          <p class="eyebrow">Каталог</p>
+          <h2 id="catalog-title">Популярные копии</h2>
+        </div>
+
+        <div class="toolbar" aria-label="Фильтры каталога">
+          <label>
+            Стиль
+            <select data-filter-style>
+              <option value="all">Все стили</option>
+              <option value="impressionism">Импрессионизм</option>
+              <option value="renaissance">Ренессанс</option>
+              <option value="modern">Модерн</option>
+            </select>
+          </label>
+          <label>
+            Цена до
+            <select data-filter-price>
+              <option value="all">Любая</option>
+              <option value="50000">50 000 ₽</option>
+              <option value="90000">90 000 ₽</option>
+              <option value="140000">140 000 ₽</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="product-grid" data-products></div>
+      </section>
+
+      <section class="process" id="process" aria-labelledby="process-title">
+        <div class="section-heading">
+          <p class="eyebrow">Процесс</p>
+          <h2 id="process-title">От выбора до доставки</h2>
+        </div>
+        <div class="steps">
+          <article>
+            <span>01</span>
+            <h3>Выбор работы</h3>
+            <p>Покупатель выбирает картину, размер и формат исполнения.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Подтверждение</h3>
+            <p>Менеджер уточняет детали, сроки, упаковку и доставку.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Оплата и заказ</h3>
+            <p>На следующем этапе подключим полноценную онлайн-кассу.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="reviews" id="reviews" aria-labelledby="reviews-title">
+        <div class="section-heading">
+          <p class="eyebrow">Отзывы</p>
+          <h2 id="reviews-title">Комментарии покупателей</h2>
+        </div>
+        <div class="review-layout">
+          <article class="review-card">
+            <p>
+              "Копия приехала аккуратно упакованной, фактура мазков выглядит живой.
+              Брали для гостиной, попали в цвет интерьера."
+            </p>
+            <strong>Анна, Москва</strong>
+          </article>
+          <article class="review-card video-placeholder">
+            <span aria-hidden="true">▶</span>
+            <p>Здесь позже появятся видеоотзывы с загрузкой и модерацией.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="support" id="support" aria-labelledby="support-title">
+        <div class="support-copy">
+          <p class="eyebrow">Поддержка</p>
+          <h2 id="support-title">Напишите нам с сайта</h2>
+          <p>
+            Сейчас форма подготавливает письмо в почтовом клиенте. После появления бэкенда
+            она будет отправлять обращения напрямую и сохранять историю сообщений.
+          </p>
+        </div>
+        <form class="support-form" data-support-form>
+          <label>
+            Ваше имя
+            <input type="text" name="name" autocomplete="name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>
+            Сообщение
+            <textarea name="message" rows="5" required></textarea>
+          </label>
+          <button class="button primary" type="submit">Отправить</button>
+        </form>
+      </section>
+    </main>
+
+    <aside class="cart-panel" aria-hidden="true" data-cart-panel>
+      <div class="cart-backdrop" data-close-cart></div>
+      <section class="cart-sheet" aria-labelledby="cart-title" role="dialog" aria-modal="true">
+        <div class="cart-header">
+          <h2 id="cart-title">Корзина</h2>
+          <button class="icon-button" type="button" aria-label="Закрыть корзину" data-close-cart>×</button>
+        </div>
+        <div class="cart-items" data-cart-items></div>
+        <div class="cart-empty" data-cart-empty>Корзина пока пуста.</div>
+        <div class="cart-summary">
+          <span>Итого</span>
+          <strong data-cart-total>0 ₽</strong>
+        </div>
+        <button class="button primary checkout-button" type="button" data-checkout>
+          Оформить заказ
+        </button>
+        <p class="checkout-note" data-checkout-note></p>
+      </section>
+    </aside>
+
+    <dialog class="product-dialog" data-product-dialog>
+      <button class="icon-button dialog-close" type="button" aria-label="Закрыть" data-close-product>×</button>
+      <div data-product-detail></div>
+    </dialog>
+
+    <script src="script.js"></script>
+  </body>
+</html>
