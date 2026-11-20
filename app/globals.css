@@ -440,6 +440,10 @@ textarea {
   object-fit: cover;
 }
 
+.portfolio-review {
+  padding: 0;
+}
+
 .featured-review-body {
   display: grid;
   gap: 12px;

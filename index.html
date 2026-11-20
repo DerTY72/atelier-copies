@@ -20,7 +20,7 @@
       <nav class="main-nav" aria-label="Основная навигация">
         <a href="#catalog">Каталог</a>
         <a href="#process">Как работаем</a>
-        <a href="#reviews">Отзывы</a>
+        <a href="#reviews">В интерьере</a>
         <a href="#support">Поддержка</a>
       </nav>
 
@@ -40,7 +40,7 @@
           </p>
           <div class="hero-actions">
             <a class="button primary" href="#catalog">Выбрать картину</a>
-            <a class="button secondary" href="#support">Поддержка</a>
+            <a class="button secondary" href="#support">Задать вопрос</a>
           </div>
         </div>
       </section>
@@ -93,26 +93,49 @@
           </article>
           <article>
             <span>03</span>
-            <h3>Оформление</h3>
-            <p>Приём заказов и онлайн-оплата недоступны.</p>
+            <h3>Оплата и заказ</h3>
+            <p>После подтверждения заказ переходит к оплате и работе художника.</p>
           </article>
         </div>
       </section>
 
       <section class="reviews" id="reviews" aria-labelledby="reviews-title">
         <div class="section-heading">
-          <p class="eyebrow">Отзывы</p>
-          <h2 id="reviews-title">Комментарии покупателей</h2>
+          <p class="eyebrow">Подборка</p>
+          <h2 id="reviews-title">Картины в интерьере</h2>
         </div>
-        <p>Отзывы пока не опубликованы.</p>
+        <div class="review-layout">
+          <article class="review-card">
+            <h3>Для гостиной</h3>
+            <p>Светлая палитра хорошо сочетается с нейтральными стенами, а боковой свет подчёркивает фактуру мазков.</p>
+          </article>
+          <article class="review-card">
+            <h3>Для кабинета</h3>
+            <p>Классический натюрморт в тёмной раме хорошо смотрится рядом с деревянной мебелью.</p>
+          </article>
+        </div>
       </section>
 
       <section class="support" id="support" aria-labelledby="support-title">
         <div class="support-copy">
           <p class="eyebrow">Поддержка</p>
           <h2 id="support-title">Связь с мастерской</h2>
-          <p>Отправка сообщений недоступна.</p>
         </div>
+        <form class="support-form" data-support-form>
+          <label>
+            Ваше имя
+            <input type="text" name="name" autocomplete="name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="email" autocomplete="email" required />
+          </label>
+          <label>
+            Сообщение
+            <textarea name="message" rows="5" required></textarea>
+          </label>
+          <button class="button primary" type="submit">Открыть в почте</button>
+        </form>
       </section>
     </main>
 
@@ -129,7 +152,10 @@
           <span>Итого</span>
           <strong data-cart-total>0 ₽</strong>
         </div>
-        <p class="checkout-note">Оформление заказа недоступно.</p>
+        <button class="button primary checkout-button" type="button" data-checkout>
+          Проверить заказ
+        </button>
+        <p class="checkout-note" data-checkout-note aria-live="polite"></p>
       </section>
     </aside>
 

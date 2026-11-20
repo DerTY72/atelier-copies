@@ -74,6 +74,24 @@ const featuredReviews: FeaturedReview[] = [
   },
 ];
 
+const artworkNotes = [
+  {
+    artwork: "Копия «Водяные лилии»",
+    title: "Для светлой гостиной",
+    text: "При дневном свете особенно хорошо видна фактура мазков, а мягкая палитра сочетается со светлыми стенами.",
+  },
+  {
+    artwork: "Классический натюрморт",
+    title: "Для кабинета",
+    text: "Плотные цвета и глубокий фон хорошо смотрятся рядом с тёмным деревом. При выборе рамы учитывайте размеры работы.",
+  },
+  {
+    artwork: "Синий город",
+    title: "Для современного интерьера",
+    text: "Холодные синие оттенки сочетаются с серыми и графитовыми стенами и уравновешивают тёплые тона мебели.",
+  },
+];
+
 const formatPrice = (value: number) =>
   new Intl.NumberFormat("ru-RU", {
     style: "currency",
@@ -330,8 +348,8 @@ export function Storefront({
 
         <nav className="main-nav" aria-label="Основная навигация">
           <a href="#catalog">Каталог</a>
-          <a href="#process">{demo ? "Выбор картины" : "Как работаем"}</a>
-          {demo ? null : <a href="#reviews">Отзывы</a>}
+          <a href="#process">Как работаем</a>
+          <a href="#reviews">{demo ? "В интерьере" : "Отзывы"}</a>
           <a href="#support">{demo ? "Частые вопросы" : "Поддержка"}</a>
           {demo ? null : currentUser ? (
             <a href={currentUser.role === "ADMIN" ? "/admin/orders" : "/account"}>
@@ -356,7 +374,7 @@ export function Storefront({
             <h1 id="hero-title">Копии картин для интерьера, коллекции и подарка</h1>
             <p>
               {demo
-                ? "В каталоге собраны музейные сюжеты, импрессионистские пейзажи и интерьерные абстракции."
+                ? "Подберите работу из каталога по размеру, стилю и настроению."
                 : "Подберите готовую работу из каталога или закажите копию в нужном размере, технике и настроении."}
             </p>
             <div className="hero-actions">
@@ -451,56 +469,48 @@ export function Storefront({
         <section className="process" id="process" aria-labelledby="process-title">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">{demo ? "Рекомендации" : "Процесс"}</p>
-              <h2 id="process-title">{demo ? "Как выбрать картину" : "От выбора до доставки"}</h2>
+              <p className="eyebrow">Процесс</p>
+              <h2 id="process-title">От выбора до доставки</h2>
             </div>
           </div>
-          {demo ? (
-            <div className="steps">
-              <article>
-                <h3>Стиль</h3>
-                <p>Портреты и натюрморты подчеркнут классический интерьер, а абстракции подойдут для современной обстановки.</p>
-              </article>
-              <article>
-                <h3>Размер</h3>
-                <p>Сверьте размеры работы с местом на стене, учитывая ширину рамы.</p>
-              </article>
-              <article>
-                <h3>Цвет</h3>
-                <p>Картина может повторять цвета интерьера или стать контрастным акцентом.</p>
-              </article>
-            </div>
-          ) : (
-            <div className="steps">
-              <article>
-                <span>01</span>
-                <h3>Выбор работы</h3>
-                <p>Покупатель выбирает картину, размер и формат исполнения.</p>
-              </article>
-              <article>
-                <span>02</span>
-                <h3>Подтверждение</h3>
-                <p>Менеджер уточняет детали, сроки, упаковку и доставку.</p>
-              </article>
-              <article>
-                <span>03</span>
-                <h3>Оплата и заказ</h3>
-                <p>После подтверждения заказ переходит к оплате и работе художника.</p>
-              </article>
-            </div>
-          )}
+          <div className="steps">
+            <article>
+              <span>01</span>
+              <h3>Выбор работы</h3>
+              <p>Покупатель выбирает картину, размер и формат исполнения.</p>
+            </article>
+            <article>
+              <span>02</span>
+              <h3>Подтверждение</h3>
+              <p>Менеджер уточняет детали, сроки, упаковку и доставку.</p>
+            </article>
+            <article>
+              <span>03</span>
+              <h3>Оплата и заказ</h3>
+              <p>После подтверждения заказ переходит к оплате и работе художника.</p>
+            </article>
+          </div>
         </section>
 
-        {demo ? null : (
-          <section className="reviews" id="reviews" aria-labelledby="reviews-title">
-            <div className="section-heading">
-              <div>
-                <p className="eyebrow">Отзывы</p>
-                <h2 id="reviews-title">Комментарии покупателей</h2>
-              </div>
+        <section className="reviews" id="reviews" aria-labelledby="reviews-title">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">{demo ? "Подборка" : "Отзывы"}</p>
+              <h2 id="reviews-title">{demo ? "Картины в интерьере" : "Комментарии покупателей"}</h2>
             </div>
-            <div className="review-layout">
-              {featuredReviews.map((review) => (
+          </div>
+          <div className="review-layout">
+            {demo
+              ? artworkNotes.map((note) => (
+                <article className="review-card portfolio-review" key={note.artwork}>
+                  <div className="featured-review-body">
+                    <span>{note.artwork}</span>
+                    <p>{note.text}</p>
+                    <strong>{note.title}</strong>
+                  </div>
+                </article>
+              ))
+              : featuredReviews.map((review) => (
                 <article className="review-card featured-review" key={review.name}>
                   <img
                     src={review.image}
@@ -515,15 +525,16 @@ export function Storefront({
                   </div>
                 </article>
               ))}
-            </div>
-          </section>
-        )}
+          </div>
+        </section>
 
         <section className="support" id="support" aria-labelledby="support-title">
           <div className="support-copy">
             <p className="eyebrow">{demo ? "Помощь" : "Поддержка"}</p>
             <h2 id="support-title">{demo ? "Частые вопросы" : "Напишите нам с сайта"}</h2>
-            {demo ? null : (
+            {demo ? (
+              <p>Размеры картин, доставка, оформление и оплата.</p>
+            ) : (
               <p>
                 Задайте вопрос о размере, сроках, технике исполнения или доставке. Мы ответим на
                 указанную почту.
@@ -537,8 +548,8 @@ export function Storefront({
                 <p>Приём заказов и онлайн-оплата недоступны.</p>
               </details>
               <details>
-                <summary>Где посмотреть стоимость?</summary>
-                <p>Цена указана в карточке каждой работы. Общая сумма отображается в корзине.</p>
+                <summary>Какие способы доставки предусмотрены?</summary>
+                <p>Доступные варианты при оформлении: курьер, самовывоз и транспортная компания.</p>
               </details>
               <details>
                 <summary>Где найти размеры картины?</summary>
@@ -640,7 +651,16 @@ export function Storefront({
             <strong>{formatPrice(cartTotal)}</strong>
           </div>
           {demo ? (
-            <p className="checkout-note">Оформление заказа недоступно.</p>
+            <div className="checkout-form">
+              <button
+                className="button primary checkout-button"
+                type="button"
+                disabled={cartLines.length === 0}
+                onClick={() => setCheckoutNote(`Стоимость выбранных работ: ${formatPrice(cartTotal)}. Онлайн-оплата недоступна.`)}
+              >
+                Проверить заказ
+              </button>
+            </div>
           ) : <form className="checkout-form" onSubmit={handleOrderSubmit}>
             <label>
               Имя
@@ -720,7 +740,7 @@ export function Storefront({
               {isSubmittingOrder ? "Создаем заказ..." : "Оформить заказ"}
             </button>
           </form>}
-          {demo ? null : <p className="checkout-note" aria-live="polite">{checkoutNote}</p>}
+          <p className="checkout-note" aria-live="polite">{checkoutNote}</p>
         </section>
       </aside>
 

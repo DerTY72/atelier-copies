@@ -100,6 +100,7 @@ const cartItems = document.querySelector("[data-cart-items]");
 const cartEmpty = document.querySelector("[data-cart-empty]");
 const cartCount = document.querySelector("[data-cart-count]");
 const cartTotal = document.querySelector("[data-cart-total]");
+const checkoutNote = document.querySelector("[data-checkout-note]");
 const productDialog = document.querySelector("[data-product-dialog]");
 const productDetail = document.querySelector("[data-product-detail]");
 
@@ -274,6 +275,12 @@ document.addEventListener("click", (event) => {
   if (target.matches("[data-close-product]")) {
     productDialog.close();
   }
+
+  if (target.matches("[data-checkout]")) {
+    checkoutNote.textContent = getCartLines().length
+      ? `Стоимость выбранных работ: ${cartTotal.textContent}. Онлайн-оплата недоступна.`
+      : "Добавьте картину в корзину.";
+  }
 });
 
 document.querySelector("[data-filter-style]").addEventListener("change", (event) => {
@@ -284,6 +291,14 @@ document.querySelector("[data-filter-style]").addEventListener("change", (event)
 document.querySelector("[data-filter-price]").addEventListener("change", (event) => {
   state.filters.price = event.target.value;
   renderProducts();
+});
+
+document.querySelector("[data-support-form]").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const data = new FormData(event.currentTarget);
+  const subject = encodeURIComponent("Вопрос об Atelier Copies");
+  const body = encodeURIComponent(`Имя: ${data.get("name")}\nEmail: ${data.get("email")}\n\n${data.get("message")}`);
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
 });
 
 renderProducts();
