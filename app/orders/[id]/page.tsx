@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCurrentUser } from "../../lib/auth";
+import { paymentFailureLabel, paymentProviderLabels } from "../../lib/payment-labels";
 import { getPrisma } from "../../lib/prisma";
 
 export const dynamic = "force-dynamic";
@@ -24,11 +25,6 @@ const paymentStatusLabels: Record<string, string> = {
   SUCCEEDED: "Успешен",
   FAILED: "Отклонен",
   CANCELLED: "Отменен",
-};
-
-const providerLabels: Record<string, string> = {
-  TEST: "Тестовый провайдер",
-  YOOKASSA: "ЮKassa",
 };
 
 const formatPrice = (value: number) =>
@@ -164,11 +160,11 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
         {canPay ? (
           <div className="payment-panel">
             <div>
-              <strong>Учебная оплата</strong>
-              <p>Перейдите на отдельную страницу оплаты, чтобы создать тестовую платежную попытку.</p>
+              <strong>Платежи</strong>
+              <p>Онлайн-оплата недоступна.</p>
             </div>
             <Link className="button primary" href={`/orders/${order.id}/payment`}>
-              Перейти к оплате
+              Открыть платежи
             </Link>
           </div>
         ) : null}
@@ -180,14 +176,14 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
               {order.payments.map((payment) => (
                 <article className="payment-history-item" key={payment.id}>
                   <div>
-                    <strong>{providerLabels[payment.provider] || payment.provider}</strong>
+                    <strong>{paymentProviderLabels[payment.provider] || payment.provider}</strong>
                     <small>{formatDate(payment.createdAt)}</small>
                   </div>
                   <span className="status-pill">
                     {paymentStatusLabels[payment.status] || payment.status}
                   </span>
                   <strong>{formatPrice(payment.amount)}</strong>
-                  {payment.failureReason ? <p>{payment.failureReason}</p> : null}
+                  {payment.failureReason ? <p>{paymentFailureLabel(payment.failureReason)}</p> : null}
                 </article>
               ))}
             </div>
@@ -197,7 +193,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
         {needsLoginToPay ? (
           <div className="payment-panel">
             <div>
-              <strong>Войдите для оплаты</strong>
+              <strong>Войдите для доступа к платежам</strong>
               <p>Этот заказ привязан к аккаунту. Войдите, чтобы продолжить.</p>
             </div>
             <Link className="button dark" href={`/auth?next=/orders/${order.id}`}>

@@ -34,7 +34,7 @@ export function TestPaymentPanel({ orderId, initialPayment }: TestPaymentPanelPr
       }
 
       setPayment(result.payment);
-      setMessage("Платежная попытка создана.");
+      setMessage("Платёжная запись создана.");
       router.refresh();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Не удалось создать платеж.");
@@ -59,7 +59,7 @@ export function TestPaymentPanel({ orderId, initialPayment }: TestPaymentPanelPr
         },
         body: JSON.stringify({
           status,
-          failureReason: status === "FAILED" ? "Тестовая оплата отклонена покупателем." : undefined,
+          failureReason: status === "FAILED" ? "Платёж отклонён покупателем." : undefined,
         }),
       });
       const result = (await response.json()) as { payment?: PaymentSnapshot; message?: string };
@@ -69,7 +69,7 @@ export function TestPaymentPanel({ orderId, initialPayment }: TestPaymentPanelPr
       }
 
       setPayment(result.payment);
-      setMessage(status === "SUCCEEDED" ? "Оплата прошла успешно." : "Оплата отклонена.");
+      setMessage("Статус платежа обновлён.");
       router.refresh();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Не удалось завершить платеж.");
@@ -84,7 +84,7 @@ export function TestPaymentPanel({ orderId, initialPayment }: TestPaymentPanelPr
     <div className="test-payment-flow">
       {!payment ? (
         <button className="button primary" type="button" disabled={isSubmitting} onClick={createPayment}>
-          {isSubmitting ? "Создаем..." : "Создать тестовый платеж"}
+          {isSubmitting ? "Создаём..." : "Создать платёжную запись"}
         </button>
       ) : null}
 
@@ -96,7 +96,7 @@ export function TestPaymentPanel({ orderId, initialPayment }: TestPaymentPanelPr
             disabled={isSubmitting}
             onClick={() => completePayment("SUCCEEDED")}
           >
-            Оплата успешна
+            Отметить как оплаченный
           </button>
           <button
             className="button light"
@@ -104,7 +104,7 @@ export function TestPaymentPanel({ orderId, initialPayment }: TestPaymentPanelPr
             disabled={isSubmitting}
             onClick={() => completePayment("FAILED")}
           >
-            Оплата отклонена
+            Отметить как отклонённый
           </button>
         </div>
       ) : null}

@@ -100,7 +100,6 @@ const cartItems = document.querySelector("[data-cart-items]");
 const cartEmpty = document.querySelector("[data-cart-empty]");
 const cartCount = document.querySelector("[data-cart-count]");
 const cartTotal = document.querySelector("[data-cart-total]");
-const checkoutNote = document.querySelector("[data-checkout-note]");
 const productDialog = document.querySelector("[data-product-dialog]");
 const productDetail = document.querySelector("[data-product-detail]");
 
@@ -238,16 +237,6 @@ function openProduct(id) {
   productDialog.showModal();
 }
 
-function buildSupportMail(form) {
-  const data = new FormData(form);
-  const name = data.get("name");
-  const email = data.get("email");
-  const message = data.get("message");
-  const subject = encodeURIComponent(`Обращение с сайта от ${name}`);
-  const body = encodeURIComponent(`Имя: ${name}\nEmail: ${email}\n\n${message}`);
-  return `mailto:support@example.com?subject=${subject}&body=${body}`;
-}
-
 document.addEventListener("click", (event) => {
   const target = event.target;
   if (!(target instanceof HTMLElement)) return;
@@ -285,13 +274,6 @@ document.addEventListener("click", (event) => {
   if (target.matches("[data-close-product]")) {
     productDialog.close();
   }
-
-  if (target.matches("[data-checkout]")) {
-    const lines = getCartLines();
-    checkoutNote.textContent = lines.length
-      ? "Следующим этапом подключим оплату и создание заказа в базе. Сейчас корзина уже готова к интеграции с кассой."
-      : "Добавьте картину в корзину, чтобы перейти к оформлению.";
-  }
 });
 
 document.querySelector("[data-filter-style]").addEventListener("change", (event) => {
@@ -302,11 +284,6 @@ document.querySelector("[data-filter-style]").addEventListener("change", (event)
 document.querySelector("[data-filter-price]").addEventListener("change", (event) => {
   state.filters.price = event.target.value;
   renderProducts();
-});
-
-document.querySelector("[data-support-form]").addEventListener("submit", (event) => {
-  event.preventDefault();
-  window.location.href = buildSupportMail(event.currentTarget);
 });
 
 renderProducts();

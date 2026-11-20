@@ -21,7 +21,7 @@ type DeliveryMethod = "COURIER" | "PICKUP" | "TRANSPORT_COMPANY";
 type FeaturedReview = {
   name: string;
   artwork: string;
-  image?: string;
+  image: string;
   text: string;
   imagePosition?: string;
 };
@@ -71,24 +71,6 @@ const featuredReviews: FeaturedReview[] = [
     imagePosition: "center 18%",
     text:
       "Нужна была крупная работа под современный интерьер. По размеру попали идеально, холст приехал надежно упакованным, повесил в тот же день.",
-  },
-];
-
-const demoReviews: FeaturedReview[] = [
-  {
-    name: "Пример отзыва №1",
-    artwork: "Копия «Водяные лилии»",
-    text: "В гостиной картина выглядит светлее, чем на экране. Особенно понравилась фактура мазков.",
-  },
-  {
-    name: "Пример отзыва №2",
-    artwork: "Классический натюрморт",
-    text: "Выбрали работу для кабинета. В карточке удобно было сверить размеры перед тем, как подобрать раму.",
-  },
-  {
-    name: "Пример отзыва №3",
-    artwork: "Синий город",
-    text: "Долго искали картину в холодных тонах. Эта хорошо подошла к стенам и мебели.",
   },
 ];
 
@@ -348,8 +330,8 @@ export function Storefront({
 
         <nav className="main-nav" aria-label="Основная навигация">
           <a href="#catalog">Каталог</a>
-          <a href="#process">Как работаем</a>
-          <a href="#reviews">Отзывы</a>
+          <a href="#process">{demo ? "Выбор картины" : "Как работаем"}</a>
+          {demo ? null : <a href="#reviews">Отзывы</a>}
           <a href="#support">{demo ? "Частые вопросы" : "Поддержка"}</a>
           {demo ? null : currentUser ? (
             <a href={currentUser.role === "ADMIN" ? "/admin/orders" : "/account"}>
@@ -370,13 +352,12 @@ export function Storefront({
       <main>
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-content">
-            <p className="eyebrow">
-              {demo ? "Демо интернет-магазина" : "Ручная работа по фото и музейным референсам"}
-            </p>
+            <p className="eyebrow">Ручная работа по фото и музейным референсам</p>
             <h1 id="hero-title">Копии картин для интерьера, коллекции и подарка</h1>
             <p>
-              Подберите готовую работу из каталога или закажите копию в нужном размере,
-              технике и настроении.
+              {demo
+                ? "В каталоге собраны музейные сюжеты, импрессионистские пейзажи и интерьерные абстракции."
+                : "Подберите готовую работу из каталога или закажите копию в нужном размере, технике и настроении."}
             </p>
             <div className="hero-actions">
               <a className="button primary" href="#catalog">
@@ -470,67 +451,79 @@ export function Storefront({
         <section className="process" id="process" aria-labelledby="process-title">
           <div className="section-heading">
             <div>
-              <p className="eyebrow">Процесс</p>
-              <h2 id="process-title">От выбора до доставки</h2>
+              <p className="eyebrow">{demo ? "Рекомендации" : "Процесс"}</p>
+              <h2 id="process-title">{demo ? "Как выбрать картину" : "От выбора до доставки"}</h2>
             </div>
           </div>
-          <div className="steps">
-            <article>
-              <span>01</span>
-              <h3>Выбор работы</h3>
-              <p>Покупатель выбирает картину, размер и формат исполнения.</p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>Подтверждение</h3>
-              <p>Менеджер уточняет детали, сроки, упаковку и доставку.</p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>Оплата и заказ</h3>
-              <p>После подтверждения заказ переходит к оплате и работе художника.</p>
-            </article>
-          </div>
+          {demo ? (
+            <div className="steps">
+              <article>
+                <h3>Стиль</h3>
+                <p>Портреты и натюрморты подчеркнут классический интерьер, а абстракции подойдут для современной обстановки.</p>
+              </article>
+              <article>
+                <h3>Размер</h3>
+                <p>Сверьте размеры работы с местом на стене, учитывая ширину рамы.</p>
+              </article>
+              <article>
+                <h3>Цвет</h3>
+                <p>Картина может повторять цвета интерьера или стать контрастным акцентом.</p>
+              </article>
+            </div>
+          ) : (
+            <div className="steps">
+              <article>
+                <span>01</span>
+                <h3>Выбор работы</h3>
+                <p>Покупатель выбирает картину, размер и формат исполнения.</p>
+              </article>
+              <article>
+                <span>02</span>
+                <h3>Подтверждение</h3>
+                <p>Менеджер уточняет детали, сроки, упаковку и доставку.</p>
+              </article>
+              <article>
+                <span>03</span>
+                <h3>Оплата и заказ</h3>
+                <p>После подтверждения заказ переходит к оплате и работе художника.</p>
+              </article>
+            </div>
+          )}
         </section>
 
-        <section className="reviews" id="reviews" aria-labelledby="reviews-title">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">Отзывы</p>
-              <h2 id="reviews-title">{demo ? "Примеры отзывов" : "Комментарии покупателей"}</h2>
+        {demo ? null : (
+          <section className="reviews" id="reviews" aria-labelledby="reviews-title">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">Отзывы</p>
+                <h2 id="reviews-title">Комментарии покупателей</h2>
+              </div>
             </div>
-          </div>
-          <div className="review-layout">
-            {(demo ? demoReviews : featuredReviews).map((review) => (
-              <article
-                className={review.image ? "review-card featured-review" : "review-card portfolio-review"}
-                key={review.name}
-              >
-                {review.image ? (
+            <div className="review-layout">
+              {featuredReviews.map((review) => (
+                <article className="review-card featured-review" key={review.name}>
                   <img
                     src={review.image}
                     alt={review.name}
                     loading="lazy"
                     style={{ objectPosition: review.imagePosition }}
                   />
-                ) : null}
-                <div className="featured-review-body">
-                  <span>{review.artwork}</span>
-                  <p>"{review.text}"</p>
-                  <strong>{review.name}</strong>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+                  <div className="featured-review-body">
+                    <span>{review.artwork}</span>
+                    <p>"{review.text}"</p>
+                    <strong>{review.name}</strong>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="support" id="support" aria-labelledby="support-title">
           <div className="support-copy">
             <p className="eyebrow">{demo ? "Помощь" : "Поддержка"}</p>
             <h2 id="support-title">{demo ? "Частые вопросы" : "Напишите нам с сайта"}</h2>
-            {demo ? (
-              <p>Условия доставки, оформления и оплаты в демонстрационной версии.</p>
-            ) : (
+            {demo ? null : (
               <p>
                 Задайте вопрос о размере, сроках, технике исполнения или доставке. Мы ответим на
                 указанную почту.
@@ -541,11 +534,11 @@ export function Storefront({
             <div className="support-form portfolio-faq">
               <details>
                 <summary>Можно оформить заказ?</summary>
-                <p>Корзина работает в браузере. Заказы и платежи в демоверсии не принимаются.</p>
+                <p>Приём заказов и онлайн-оплата недоступны.</p>
               </details>
               <details>
-                <summary>Какие способы доставки предусмотрены?</summary>
-                <p>В полной версии доступны курьер, самовывоз и транспортная компания.</p>
+                <summary>Где посмотреть стоимость?</summary>
+                <p>Цена указана в карточке каждой работы. Общая сумма отображается в корзине.</p>
               </details>
               <details>
                 <summary>Где найти размеры картины?</summary>
@@ -647,16 +640,7 @@ export function Storefront({
             <strong>{formatPrice(cartTotal)}</strong>
           </div>
           {demo ? (
-            <div className="checkout-form">
-              <button
-                className="button primary checkout-button"
-                type="button"
-                disabled={cartLines.length === 0}
-                onClick={() => setCheckoutNote(`Демо-заказ на ${formatPrice(cartTotal)}. Оплата недоступна.`)}
-              >
-                Попробовать оформление
-              </button>
-            </div>
+            <p className="checkout-note">Оформление заказа недоступно.</p>
           ) : <form className="checkout-form" onSubmit={handleOrderSubmit}>
             <label>
               Имя
@@ -736,7 +720,7 @@ export function Storefront({
               {isSubmittingOrder ? "Создаем заказ..." : "Оформить заказ"}
             </button>
           </form>}
-          <p className="checkout-note" aria-live="polite">{checkoutNote}</p>
+          {demo ? null : <p className="checkout-note" aria-live="polite">{checkoutNote}</p>}
         </section>
       </aside>
 

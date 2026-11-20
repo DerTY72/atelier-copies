@@ -3,8 +3,8 @@ import type { ReactNode } from "react";
 import "../../app/globals.css";
 
 export const metadata: Metadata = {
-  title: "Atelier Copies | Портфолио",
-  description: "Демонстрационная витрина магазина копий картин.",
+  title: "Atelier Copies | Копии картин",
+  description: "Каталог музейных и интерьерных копий картин.",
 };
 
 export default function PortfolioLayout({ children }: { children: ReactNode }) {
@@ -15,7 +15,7 @@ export default function PortfolioLayout({ children }: { children: ReactNode }) {
         <footer className="site-footer">
           <div>
             <strong>Atelier Copies</strong>
-            <p>Демонстрационный проект для портфолио. Заказы и платежи не принимаются.</p>
+            <p>Музейные и интерьерные копии картин.</p>
           </div>
           <nav aria-label="Навигация в подвале">
             <a href="#catalog">Каталог</a>

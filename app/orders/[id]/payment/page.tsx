@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCurrentUser } from "../../../lib/auth";
+import { paymentFailureLabel, paymentProviderLabels } from "../../../lib/payment-labels";
 import { getPrisma } from "../../../lib/prisma";
 import { TestPaymentPanel } from "./test-payment-panel";
 
@@ -19,11 +20,6 @@ const paymentStatusLabels: Record<string, string> = {
   SUCCEEDED: "Успешен",
   FAILED: "Отклонен",
   CANCELLED: "Отменен",
-};
-
-const providerLabels: Record<string, string> = {
-  TEST: "Тестовый провайдер",
-  YOOKASSA: "ЮKassa",
 };
 
 const formatPrice = (value: number) =>
@@ -92,13 +88,10 @@ export default async function OrderPaymentPage({ params }: { params: Promise<{ i
 
         <div className="payment-checkout">
           <div>
-            <span>К оплате</span>
+            <span>Сумма заказа</span>
             <strong>{formatPrice(order.total)}</strong>
           </div>
-          <p>
-            Сейчас используется учебный провайдер TEST. Он не списывает деньги, но создает
-            реальные записи платежей в базе и обновляет статус заказа.
-          </p>
+          <p>Онлайн-оплата недоступна. Статусы платежей обновляются вручную.</p>
         </div>
 
         {canPay ? (
@@ -118,8 +111,8 @@ export default async function OrderPaymentPage({ params }: { params: Promise<{ i
         {needsLoginToPay ? (
           <div className="payment-panel">
             <div>
-              <strong>Войдите для оплаты</strong>
-              <p>Этот заказ привязан к аккаунту. Войдите, чтобы продолжить оплату.</p>
+              <strong>Войдите для доступа к платежам</strong>
+              <p>Этот заказ привязан к аккаунту.</p>
             </div>
             <Link className="button dark" href={`/auth?next=/orders/${order.id}/payment`}>
               Войти
@@ -130,8 +123,7 @@ export default async function OrderPaymentPage({ params }: { params: Promise<{ i
         {order.status === "PAID" ? (
           <div className="payment-panel">
             <div>
-              <strong>Заказ оплачен</strong>
-              <p>Платеж успешно завершен, заказ находится в статусе “Оплачен”.</p>
+              <strong>Заказ отмечен как оплаченный</strong>
             </div>
           </div>
         ) : null}
@@ -145,14 +137,14 @@ export default async function OrderPaymentPage({ params }: { params: Promise<{ i
               {order.payments.map((payment) => (
                 <article className="payment-history-item" key={payment.id}>
                   <div>
-                    <strong>{providerLabels[payment.provider] || payment.provider}</strong>
+                    <strong>{paymentProviderLabels[payment.provider] || payment.provider}</strong>
                     <small>{formatDate(payment.createdAt)}</small>
                   </div>
                   <span className="status-pill">
                     {paymentStatusLabels[payment.status] || payment.status}
                   </span>
                   <strong>{formatPrice(payment.amount)}</strong>
-                  {payment.failureReason ? <p>{payment.failureReason}</p> : null}
+                  {payment.failureReason ? <p>{paymentFailureLabel(payment.failureReason)}</p> : null}
                 </article>
               ))}
             </div>
